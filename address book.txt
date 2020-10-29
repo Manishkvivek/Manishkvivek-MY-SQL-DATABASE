@@ -1,0 +1,218 @@
+CREATE DATABASE addressbook_service
+USE addressbook_service;
+SELECT DATABASE();
+
+
+CREATE TABLE addressbook
+( 
+ first_name VARCHAR(25) NOT NULL,
+ last_name VARCHAR(25) NOT NULL,
+ address VARCHAR(50) NOT NULL,
+ city VARCHAR(50) NOT NULL,
+ state VARCHAR(50) NOT NULL,
+ zipcode VARCHAR(50) NOT NULL,
+ phone VARCHAR(20) NOT NULL,
+ email VARCHAR(100) NOT NULL
+);
+
+
+INSERT INTO addressbook VALUES 
+('Manish','Yadav','Fatehpur','Gaya','Bihar','824075','9898989898','manish@gmail.com'),
+('Akshay','Sinha','Aurangabad','Aurangabad','Bihar','843423','8787878787','Akshay@gmail.com'), 
+('Sumit','Gupta','Mohanpur','Gaya','Bihar','824062','9876987623','Sumit@gmail.com');
+
+|------------|-----------|------------|-----------|-------------|---------|------------|--------------------|
+| first_name | last_name | address    | city      | state       | zipcode | phone      | email              |
+|------------|-----------|------------|-----------|-------------|---------|------------|--------------------|
+| Manish     | Yadav       | Fatehpur   | Gaya   | Bihar | 824075  | 9898989898 | manish@gmail.com   |
+| Akshay     | Sinha     | Aurangabad | Aurangabad | Bihar   | 843423  | 8787878787 | akshay@gmail.com   |
+| Sumit   | Gupta     | Mohanpur      | Gaya   | Bihar | 824062  | 9876987623 | sumit@gmail.com |
+|------------|-----------|------------|-----------|-------------|---------|------------|--------------------|
+
+
+UPDATE addressbook SET city = 'Noida' WHERE first_name = 'Manish';
+
+|------------|-----------|------------|-----------|-------------|---------|------------|--------------------|
+| first_name | last_name | address    | city      | state       | zipcode | phone      | email              |
+|------------|-----------|------------|-----------|-------------|---------|------------|--------------------|
+| Manish     | Yadav       | Fatehpur   | Noida     | Bihar | 824075  | 9898989898 | manish@gmail.com   |
+| Akshay     | Sinha     | Aurangabad | Aurangabad | Bihar   | 843423  | 8787878787 | akshay@gmail.com   |
+| Sumit   | Gupta     | Mohanpur      | Gaya   | Bihar | 824062  | 9876987623 | sumit@gmail.com |
+|------------|-----------|------------|-----------|-------------|---------|------------|--------------------|
+
+
+DELETE FROM addressbook WHERE first_name = 'Manish'; 
+
+|------------|-----------|------------|-----------|-------------|---------|------------|--------------------|
+| first_name | last_name | address    | city      | state       | zipcode | phone      | email              |
+|------------|-----------|------------|-----------|-------------|---------|------------|--------------------|
+| Akshay     | Sinha     | Aurangabad | Aurangabad | Bihar   | 843423  | 8787878787 | akshay@gmail.com   |
+| Sumit   | Gupta     | Mohanpur      | Gaya   | Bihar | 824062  | 9876987623 | sumit@gmail.com |
+|------------|-----------|------------|-----------|-------------|---------|------------|--------------------|
+
+
+SELECT * FROM addressbook WHERE city = 'Aurangabad';
+
+|------------|-----------|------------|-----------|-----------|---------|------------|------------------|
+| first_name | last_name | address    | city      | state     | zipcode | phone      | email            |
+|------------|-----------|------------|-----------|-----------|---------|------------|------------------|
+| Akshay     | Sinha     | Aurangabad | Aurangabad | Bihar | 843423  | 8787878787 | akshay@gmail.com |
+|------------|-----------|------------|-----------|-----------|---------|------------|------------------|
+ 
+SELECT * FROM addressbook WHERE state = 'Bihar'; 
+
+|------------|-----------|---------|---------|-------------|---------|------------|--------------------|
+| first_name | last_name | address | city    | state       | zipcode | phone      | email              |
+|------------|-----------|---------|---------|-------------|---------|------------|--------------------|
+| Sumit   | Gupta     | Mohanpur   | Gaya | Bihar | 824062  | 9876987623 | sumit@gmail.com |
+|------------|-----------|---------|---------|-------------|---------|------------|--------------------|
+
+
+SELECT city,COUNT(city) FROM addressbook GROUP BY city; 
+
+|-----------|-------------|
+| city      | count(city) |
+|-----------|-------------|
+| Aurangabad |           1 |
+| Gaya   |           1 |
+|-----------|-------------|
+
+SELECT state,COUNT(state) FROM addresbook GROUP BY state;
+
+|-------------|--------------|
+| state       | count(state) |
+|-------------|--------------|
+| Bihar   |            1 |
+| Bihar |            1 |
+|-------------|--------------|
+
+
+INSERT INTO addressbook VALUES('Manish', 'Yadav', 'Fatehpur', 'Gaya', 'Bihar', '824075', '9898989898', 'manish@gmail.com');
+SELECT * FROM addressbook WHERE city = 'Gaya' ORDER BY first_name; 
+
+|------------|-----------|----------|---------|-------------|---------|------------|--------------------|
+| first_name | last_name | address  | city    | state       | zipcode | phone      | email              |
+|------------|-----------|----------|---------|-------------|---------|------------|--------------------|
+| Manish     | Yadav       | Fatehpur | Gaya | Bihar | 824075  | 9898989898 | manish@gmail.com   |
+| Sumit   | Gupta     | Mohanpur    | Gaya | Bihar | 824062  | 9876987623 | sumit@gmail.com |
+|------------|-----------|----------|---------|-------------|---------|------------|--------------------|
+
+
+ALTER TABLE addressbook ADD type VARCHAR(25);
+
+
+INSERT INTO addressbook VALUES ('Sneha','Gupta','Sector 5','Gaya','Bihar','824024','9887656234','sneha@gmail.com', 'Family'); 
+SELECT type, COUNT(type) FROM addressbook GROUP BY type;
+
+|--------|-------------|
+| type   | count(type) |
+|--------|-------------|
+| NULL   |           0 |
+| Family |           1 |
+|--------|-------------|
+
+
+INSERT INTO addressbook VALUES                 
+('Debashish','Borat','Airport','Chennai','Tamilnadu','566156','7617987816','debashish@gmail.com','Friend'),                           
+('Subham','Roy','NJP','Dobhi','Bihar','799816','8716735622','subham@gmail.com','Family'); 
+SELECT type, COUNT(type) FROM addressbook GROUP BY type;
+
+|--------|-------------|
+| type   | count(type) |
+|--------|-------------|
+| NULL   |           0 |
+| Family |           2 |
+| Friend |           1 |
+|--------|-------------|
+
+
+ER Diagram attached herewith.
+
+CREATE TABLE AdressBook (addressbook_name VARCHAR(100) NOT NULL PRIMARY KEY, type VARCHAR(100) NOT NULL);
+
+INSERT INTO AdressBook VALUES ('Book 1', 'Family'), ('Book 2', 'Friend'), ('Book 3', 'NULL');
+
+|------------------|--------|
+| addressbook_name | type   |
+|------------------|--------|
+| Book 1           | Family |
+| Book 2           | Friend |
+| Book 3           | NULL   |
+|------------------|--------|
+
+CREATE TABLE Contacts
+(person_id INT NOT NULL PRIMARY KEY,
+ addressbook_name VARCHAR(100) REFERENCES AdressBook(addressbook_name),
+ first_name VARCHAR(100) NOT NULL,
+ last_name VARCHAR(100) NOT NULL
+);
+
+INSERT INTO Contacts VALUES
+(1, 'NULL', 'Manish', 'Yadav'),
+(2, 'NULL', 'Akshay', 'Sinha'),
+(3, 'NULL', 'Sumit', 'Gupta'),
+(4, 'Family', 'Sneha', 'Gupta'),
+(5, 'Family', 'Subham', 'Roy'),
+(6, 'Friend', 'Debashish', 'Borat');
+
+|-----------|------------------|------------|-----------|
+| person_id | addressbook_name | first_name | last_name |
+|-----------|------------------|------------|-----------|
+|         1 | NULL             | Manish     | Yadav     |
+|         2 | NULL             | Akshay     | Sinha     |
+|         3 | NULL             | Sumit      | Gupta     |
+|         4 | Family           | Sneha      | Gupta     |
+|         5 | Family           | Subham     | Roy       |
+|         6 | Friend           | Debashish  | Borat     |
+|-----------|------------------|------------|-----------|
+
+CREATE TABLE Contact_details
+(person_id INT REFERENCES Contacts(person_id),
+ phone VARCHAR(20) NOT NULL,
+ email VARCHAR(100) NOT NULL
+);
+
+INSERT INTO Contact_details VALUES
+(1, '9898989898', 'manish@gmail.com'),
+(2, '8787878787', 'akshay@gmail.com'),
+(3, '9876987623', 'sumit@gmail.com'),
+(4, '9887656234', 'sneha@gmail.com'),
+(5, '8716735622', 'subham@gmail.com'),
+(6, '7617987816', 'debashish@gmail.com');
+
+|-----------|------------|---------------------|
+| person_id | phone      | email               |
+|-----------|------------|---------------------|
+|         1 | 9898989898 | Manish@gmail.com    |
+|         2 | 8787878787 | Akshay@gmail.com    |
+|         3 | 9876987623 | Sumit@gmail.com     |
+|         4 | 9887656234 | sneha@gmail.com     |
+|         5 | 8716735622 | subham@gmail.com    |
+|         6 | 7617987816 | debashish@gmail.com |
+|-----------|------------|---------------------|
+
+CREATE TABLE Address(
+person_id    INT REFERENCES Contacts(person_id),
+street  VARCHAR(50) NOT NULL,
+city  VARCHAR(50) NOT NULL,
+state  VARCHAR(50) NOT NULL,
+zipcode  VARCHAR(50) NOT NULL);
+
+INSERT INTO Address VALUES
+(1, 'Fatehpur', 'Gaya', 'Bihar', '824075'),
+(2, 'Aurangabad', 'Aurangabad', 'Bihar', '843423'),
+(3, 'Mohanpur', 'Gaya', 'Bihar', '824062'),
+(4, 'Sector 5', 'Gaya', 'Bihar', '824024'),
+(5, 'NJP', 'Dobhi', 'Bihar', '899816'),
+(6, 'Airport', 'Chennai', 'Tamilnadu', '566156');\
+
+|-----------|------------|-----------|-------------|---------|
+| person_id | street     | city      | state       | zipcode |
+|-----------|------------|-----------|-------------|---------|
+|         1 | Fatehpur   | Gaya   | Bihar | 824075  |
+|         2 | Aurangabad | Aurangabad | Bihar   | 843423  |
+|         3 | Mohanpur      | Gaya   | Bihar | 824062  |
+|         4 | Sector 5   | Gaya   | Bihar | 824024  |
+|         5 | NJP        | Dobhi  | Bihar | 899816  |
+|         6 | Airport    | Chennai   | Tamilnadu   | 566156  |
+|-----------|------------|-----------|-------------|---------|
